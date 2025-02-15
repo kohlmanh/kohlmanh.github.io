@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/work.css' | relative_url }}">
+</head>
+<body>
+  <div class="header">WORK</div>
+  <div class="container">
+    <a href="/" class="home-button" onclick="returnToHome(); return false;">Back to Home</a>
+    <div id="year-ticker" class="year-ticker"></div>
+
+    <!-- Page content will be injected here -->
+    {{ content }}
+  </div>
+
+  <!-- Modal Structure for Image Enlargement -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <button class="close-button" onclick="closeModal()">&times;</button>
+      <img id="modal-image" src="" alt="">
+      <p id="modal-title"></p>
+      <p id="modal-material"></p>
+      <p id="modal-dimensions"></p>
+      <p id="modal-description"></p>
+      <button id="modal-prev" class="carousel-arrow prev" onclick="navigateModal(-1)">&#10094;</button>
+      <button id="modal-next" class="carousel-arrow next" onclick="navigateModal(1)">&#10095;</button>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen" style="display: none;">
+    <div>WORK PAGE LOADING...</div>
+    <div class="loading-bar" id="loading-bar"></div>
+  </div>
+
+  <!-- Embedded JavaScript -->
+  <script>
+    // Carousel Functionality
+    function moveCarousel(button, direction) {
+      const carousel = button.parentElement;
+      const items = carousel.querySelectorAll('.carousel-item');
+      let activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+
+      items[activeIndex].classList.remove('active');
+
+      activeIndex += direction;
+
+      if (activeIndex >= items.length) {
+        activeIndex = 0;
+      } else if (activeIndex < 0) {
+        activeIndex = items.length - 1;
+      }
+
+      items[activeIndex].classList.add('active');
+    }
+
+    // Year Ticker Functionality
+    function updateYearTicker() {
+      const yearTicker = document.getElementById('year-ticker');
+      const artItems = document.querySelectorAll('.art-item');
+      const years = Array.from(artItems).map(item => item.getAttribute('data-year'));
+      const uniqueYears = [...new Set(years)].sort((a, b) => b - a); // Sort years in descending order
+
+      if (yearTicker) {
+        yearTicker.textContent = uniqueYears.join(' / '); // Display years separated by slashes
+      }
+    }
+
+    // Modal Functionality
+    let currentIndex = 0;
+    let currentItems = [];
+
+    function openModal(imageFilename, title, material, dimensions, description) {
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalTitle = document.getElementById('modal-title');
+      const modalMaterial = document.getElementById('modal-material');
+      const modalDimensions = document.getElementById('modal-dimensions');
+      const modalDescription = document.getElementById('modal-description');
+
+      currentItems = imageFilename.split(',');
+      currentIndex = 0;
+
+      modalImage.src = `/assets/images/work images/${currentItems[currentIndex].trim()}`;
+      modalTitle.textContent = title;
+      modalMaterial.textContent = `Material: ${material}`;
+      modalDimensions.textContent = `Dimensions: ${dimensions}`;
+      modalDescription.textContent = `Description: ${description}`;
+
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+    }
+
+    function navigateModal(direction) {
+      currentIndex += direction;
+
+      if (currentIndex >= currentItems.length) {
+        currentIndex = 0;
+      } else if (currentIndex < 0) {
+        currentIndex = currentItems.length - 1;
+      }
+
+      const modalImage = document.getElementById('modal-image');
+      modalImage.src = `/assets/images/work images/${currentItems[currentIndex].trim()}`;
+    }
+
+    // Initialize Year Ticker on Page Load
+    document.addEventListener('DOMContentLoaded', updateYearTicker);
+
+    // Loading Screen and Glitch Effects
+    function returnToHome() {
+      const body = document.body;
+      body.classList.add('glitch');
+      setTimeout(() => {
+        body.classList.remove('glitch');
+        body.classList.add('power-down');
+        setTimeout(() => {
+          const loadingMessages = [
+            "Navigating home...",
+            "Loading grass...",
+            "Wrangling ducks...",
+            "Compiling memories...",
+          ];
+          const loadingScreen = document.createElement('div');
+          loadingScreen.className = 'home-loading-screen';
+          loadingScreen.innerHTML = `
+            <div class="home-loading-text" id="loading-text">LOADING HOME...</div>
+            <div class="home-loading-bar">
+              <div class="home-bar-fill"></div>
+            </div>
+          `;
+          document.body.appendChild(loadingScreen);
+
+          setTimeout(() => {
+            document.querySelector('.home-bar-fill').classList.add('animate');
+          }, 100);
+
+          let index = 0;
+          function updateLoadingText() {
+            if (index < loadingMessages.length) {
+              document.getElementById("loading-text").innerText = loadingMessages[index];
+              index++;
+            }
+          }
+          const textInterval = setInterval(updateLoadingText, 800);
+          setTimeout(() => {
+            clearInterval(textInterval);
+            window.location.href = "/";
+          }, 5000);
+        }, 1000);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

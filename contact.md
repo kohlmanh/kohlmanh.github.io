@@ -1,0 +1,85 @@
+---
+layout: null
+title: Contact
+permalink: /contact/
+---
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>    
+    <!-- Link to External CSS -->
+    <link rel="stylesheet" href="/assets/css/contact.css">
+    <!-- Additional Inline Styles (if needed) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap'); 
+        body {
+            background: url('https://www.transparenttextures.com/patterns/asfalt-light.png'); /* Subtle paper texture */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        .contact-ad {
+            background: white;
+            padding: 20px;
+            border: 2px solid black;
+            max-width: 400px;
+            text-align: left;
+            filter: contrast(1.3) grayscale(0.5);
+            box-shadow: 8px 8px 0px black;
+            position: relative;
+            transform: rotate(-2deg);
+            background-image: url('https://www.transparenttextures.com/patterns/gray-floral.png'); /* Gritty, scanned texture */
+        }   
+        .contact-ad::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/2/26/Scissors_icon_black.svg');
+            background-size: contain;
+        }       
+        .contact-ad p {
+            margin: 0;
+            padding: 5px 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }  
+        .timestamp {
+            font-size: 10px;
+            color: gray;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+        .glitch {
+            display: inline-block;
+            animation: glitch 1.5s infinite;
+        }
+        @keyframes glitch {
+            0% { opacity: 1; transform: translate(0, 0); }
+            20% { opacity: 0.7; transform: translate(-1px, 1px); }
+            40% { opacity: 1; transform: translate(1px, -1px); }
+            60% { opacity: 0.7; transform: translate(-1px, -1px); }
+            80% { opacity: 1; transform: translate(1px, 1px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-ad">
+        <p class="timestamp">Posted: 08/31/1993 - Classifieds Section</p>
+        <p><strong>Discreet, intelligent, good hands, bad habits.</strong></p>
+        <p>Seeking serious inquiries, stolen moments, <span class="glitch">unwritten futures.</span></p>
+        <p>No time wasters, no cops.</p>
+        <p><strong>Leave a message:</strong> <a href="mailto:kohlman.harshbarger@gmail.com">kohlman.harshbarger@gmail.com</a></p>
+        <a href="mailto:kohlman.harshbarger@gmail.com" class="reply-button">Reply</a>
+    </div>
+    <p class="return-home"><<a href="{{ site.baseurl }}/">↩ Back to Listings</a></p>
+</body>
+</html>

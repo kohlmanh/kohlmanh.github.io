@@ -1,0 +1,86 @@
+/* 1️⃣ Enhance the Print/Zine Vibe */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+body {
+    background: url('/assets/images/faint-paper-texture.png') repeat;
+    font-family: 'Courier Prime', monospace;
+}
+
+.contact-ad p {
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.8);
+}
+
+/* 2️⃣ Interactive "Reply" Button */
+.reply-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    background: black;
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px dashed black;
+    transition: all 0.3s;
+}
+
+.reply-button:hover {
+    animation: glitchText 0.4s infinite alternate;
+    background: white;
+    color: black;
+    border: 1px solid black;
+}
+
+@keyframes glitchText {
+    0% { transform: translateX(1px); text-shadow: 1px 1px black; }
+    100% { transform: translateX(-1px); text-shadow: -1px -1px black; }
+}
+
+/* 4️⃣ CRT Flicker / Old Printer Effect */
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.contact-ad {
+    animation: flicker 1.5s infinite alternate;
+}
+
+/* 5️⃣ Newspaper Stamp / Classified Ad Tag */
+.classified-tag {
+    font-size: 10px;
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Combined "Back to Listings" + Page Fold Aesthetic */
+.return-home {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: gray;
+    font-style: italic;
+}
+.return-home a {
+    color: black;
+    text-decoration: none;
+    border-bottom: 1px dashed black;
+    background: white;
+    padding: 6px 12px;
+    font-weight: bold;
+    display: inline-block;
+    border: 2px solid black;
+    transition: all 0.2s;
+}
+.return-home a:hover {
+    background: black;
+    color: white;
+    text-decoration: none;
+}

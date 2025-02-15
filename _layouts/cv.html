@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/terminal.css' | relative_url }}">
+    <style>
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 16px;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #00ff00;
+            text-transform: uppercase;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 5px;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: black;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        pre {
+            background: black;
+            color: #00ff00;
+            padding: 10px;
+            border: 1px solid #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {{ content }}
+    </div>
+</body>
+</html>
