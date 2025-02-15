@@ -16,7 +16,7 @@ permalink: /work/
             {% assign imageFiles = work.ImageFilename | split: ',' %}
             {% for imageFile in imageFiles %}
               <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="/assets/images/work images/{{ imageFile | strip }}" alt="{{ work.Title | strip }}" class="art-image" loading="lazy">
+                <img src="assets/images/work-images/{{ imageFile | strip }}" alt="{{ work.Title | strip }}" class="art-image" loading="lazy">
               </div>
             {% endfor %}
             {% if imageFiles.size > 1 %}
