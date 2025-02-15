@@ -5,7 +5,7 @@ permalink: /cv/
 ---
 
 <head>
-    <link rel="stylesheet" href="/assets/css/terminal.css">
+    <link rel="stylesheet" href="assets/css/terminal.css">
 </head>
 
 <body>

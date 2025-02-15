@@ -10,8 +10,8 @@ markdown: false
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ page.title }}</title>
-  <link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="{{ '/assets/css/terminal.css' | relative_url }}">
+  <link rel="icon" href="{{ site.baseurl }}favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="{{ site.baseurl }}assets/css/terminal.css">
   <style>
     /* Reset styles */
     html, body {
@@ -20,9 +20,9 @@ markdown: false
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: url('{{ site.baseurl }}/assets/images/duckhunt-background.jpg') no-repeat center center fixed;
+      background: url('{{ site.baseurl }}assets/images/duckhunt-background.jpg') no-repeat center center fixed;
       background-size: cover;
-      cursor: url('{{ site.baseurl }}/assets/images/crosshair.cur'), auto;
+      cursor: url('{{ site.baseurl }}assets/images/crosshair.cur'), auto;
     }
     /* Game area */
     #game-container {
@@ -37,7 +37,7 @@ markdown: false
       height: 80px;
       background-size: contain;
       background-repeat: no-repeat;
-      cursor: url('{{ site.baseurl }}/assets/images/crosshair.cur'), auto;
+      cursor: url('{{ site.baseurl }}assets/images/crosshair.cur'), auto;
       z-index: 10;
     }
     .duck span {
@@ -55,7 +55,7 @@ markdown: false
       position: absolute;
       width: 100px;
       height: 100px;
-      background: url('{{ site.baseurl }}/assets/images/explosion.png') no-repeat center center;
+      background: url('{{ site.baseurl }}assets/images/explosion.png') no-repeat center center;
       background-size: contain;
       pointer-events: none;
       animation: fadeOut 0.6s ease-out forwards;
@@ -72,10 +72,10 @@ markdown: false
 
   <script>
     const ducks = [
-      { id: 'duck1', image: 'duck1.gif', url: '/cv', label: 'CV' },
-      { id: 'duck2', image: 'duck2.gif', url: '/about', label: 'ABOUT' },
-      { id: 'duck3', image: 'duck3.gif', url: '/contact', label: 'CONTACT' },
-      { id: 'duck4', image: 'duck4.gif', url: '/work', label: 'WORK' }
+      { id: 'duck1', image: 'duck1.gif', url: '{{ site.baseurl }}cv', label: 'CV' },
+      { id: 'duck2', image: 'duck2.gif', url: '{{ site.baseurl }}about', label: 'ABOUT' },
+      { id: 'duck3', image: 'duck3.gif', url: '{{ site.baseurl }}contact', label: 'CONTACT' },
+      { id: 'duck4', image: 'duck4.gif', url: '{{ site.baseurl }}work', label: 'WORK' }
     ];
 
     const gameContainer = document.getElementById('game-container');
@@ -96,7 +96,7 @@ markdown: false
         const duckElement = document.createElement('div');
         duckElement.id = duck.id;
         duckElement.className = 'duck';
-        duckElement.style.backgroundImage = `url('{{ site.baseurl }}/assets/images/${duck.image}')`;
+        duckElement.style.backgroundImage = `url('{{ site.baseurl }}assets/images/${duck.image}')`;
         duckElement.setAttribute('data-url', duck.url);
         duckElement.style.left = `${x}px`;
         duckElement.style.top = `${y}px`;
@@ -149,7 +149,7 @@ markdown: false
     document.body.addEventListener('click', (event) => {
       if (event.target.classList.contains('duck')) {
         const url = event.target.getAttribute('data-url');
-        const audio = new Audio('{{ site.baseurl }}/assets/sounds/gunshot.mp3');
+        const audio = new Audio('{{ site.baseurl }}assets/sounds/gunshot.mp3');
         audio.play();
         createExplosion(event.clientX, event.clientY);
         setTimeout(() => {

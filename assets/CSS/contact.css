@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
 body {
-    background: url('/assets/images/faint-paper-texture.png') repeat;
+    background: url('assets/images/faint-paper-texture.png') repeat;
     font-family: 'Courier Prime', monospace;
 }
 

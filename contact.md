@@ -9,7 +9,7 @@ permalink: /contact/
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>    
     <!-- Link to External CSS -->
-    <link rel="stylesheet" href="/assets/css/contact.css">
+    <link rel="stylesheet" href="assets/css/contact.css">
     <!-- Additional Inline Styles (if needed) -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap'); 
@@ -80,6 +80,6 @@ permalink: /contact/
         <p><strong>Leave a message:</strong> <a href="mailto:kohlman.harshbarger@gmail.com">kohlman.harshbarger@gmail.com</a></p>
         <a href="mailto:kohlman.harshbarger@gmail.com" class="reply-button">Reply</a>
     </div>
-    <p class="return-home"><<a href="{{ site.baseurl }}/">↩ Back to Listings</a></p>
+    <p class="return-home"><a href="{{ site.url }}/">↩ Back to Listings</a></p>
 </body>
 </html>
