@@ -17,7 +17,7 @@
         <div class="art-item" data-year="2024" onclick="openModal('DSC0523.jpg', 'hold me tight and never let me go (stockholm syndrome),', 'Assorted used stuffed animals, thread, towel rack, hardware', '52” x 36”', 'art')">
           <div class="carousel">
             <div class="carousel-item active">
-              <img src="/assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
+              <img src="./assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
             </div>
           </div>
           <p class="art-title">hold me tight and never let me go (stockholm syndrome),</p>
@@ -36,7 +36,7 @@
       const modalDescription = document.getElementById('modal-description');
       
       let sanitizedFilename = imageFilename.trim().replace(/ /g, '%20');
-      modalImage.src = `assets/images/work-images/${sanitizedFilename}`;
+      modalImage.src = `/assets/images/work-images/${sanitizedFilename}`;
       modalTitle.textContent = title;
       modalMaterial.textContent = `Material: ${material}`;
       modalDimensions.textContent = `Dimensions: ${dimensions}`;
