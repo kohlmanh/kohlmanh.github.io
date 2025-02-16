@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work</title>
+  <!-- Fixed CSS path -->
   <link rel="stylesheet" href="assets/css/work.css">
 </head>
 <body>
@@ -12,21 +13,121 @@
     <a href="/" class="home-button" onclick="returnToHome(); return false;">Back to Home</a>
     <div id="year-ticker" class="year-ticker"></div>
 
+    <!-- Page content will be injected here -->
     <div class="art-grid" id="art-grid">
       
-        <div class="art-item" data-year="2024" onclick="openModal('DSC0523.jpg', 'hold me tight and never let me go (stockholm syndrome),', 'Assorted used stuffed animals, thread, towel rack, hardware', '52” x 36”', 'art')">
-          <div class="carousel">
-            <div class="carousel-item active">
-              <img src="assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
-            </div>
+      <!-- Updated image paths to use "work-images" instead of "work images" -->
+      <div class="art-item" data-year="2024" onclick="openModal('DSC0523.jpg', 'hold me tight and never let me go (stockholm syndrome),', 'Assorted used stuffed animals, thread, towel rack, hardware', '52” x 36”', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
           </div>
-          <p class="art-title">hold me tight and never let me go (stockholm syndrome),</p>
         </div>
-      
+        <p class="art-title">hold me tight and never let me go (stockholm syndrome),</p>
+      </div>
+
+      <div class="art-item" data-year="2024" onclick="openModal('DSC0530.jpg', 'it came from under the radiator', 'Stuffed animals, toy baby, care bear heart', '52” x 36”', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/DSC0530.jpg" alt="it came from under the radiator" class="art-image" loading="lazy" />
+          </div>
+        </div>
+        <p class="art-title">it came from under the radiator</p>
+      </div>
+
+      <div class="art-item" data-year="2024" onclick="openModal('DSC0531.jpg', 'cute kills', 'stuffed animals, nails', '52” x 36”', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/DSC0531.jpg" alt="cute kills" class="art-image" loading="lazy" />
+          </div>
+        </div>
+        <p class="art-title">cute kills</p>
+      </div>
+
+      <div class="art-item" data-year="2024" onclick="openModal('DSC0549-Enhanced-NR-2.jpg', 'colt cult', 'Colored pencil, computer paper, steel tubing, sheet steel, jibitz', '52” x 36”', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/DSC0549-Enhanced-NR-2.jpg" alt="colt cult" class="art-image" loading="lazy" />
+          </div>
+        </div>
+        <p class="art-title">colt cult</p>
+      </div>
+
+      <div class="art-item" data-year="2024" onclick="openModal('DSC0819.jpg, DSC0836.jpg, DSC0840.jpg', 'teddy bear', 'assorted teddybears, thread, armature wire', '52” x 36”', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/DSC0819.jpg" alt="teddy bear" class="art-image" loading="lazy" />
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/work-images/DSC0836.jpg" alt="teddy bear" class="art-image" loading="lazy" />
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/work-images/DSC0840.jpg" alt="teddy bear" class="art-image" loading="lazy" />
+          </div>
+          <button class="carousel-arrow prev" onclick="moveCarousel(this, -1); event.stopPropagation();">&#10094;</button>
+          <button class="carousel-arrow next" onclick="moveCarousel(this, 1); event.stopPropagation();">&#10095;</button>
+        </div>
+        <p class="art-title">teddy bear</p>
+      </div>
+
+      <!-- Updated file name for "the white ribbon.jpg" to "the-white-ribbon.jpg" -->
+      <div class="art-item" data-year="2023" onclick="openModal('the-white-ribbon.jpg', 'the white ribbon', 'brooks brothers button down, ink, pen', '16 x 18 x 15&quot;,', 'art')">
+        <div class="carousel">
+          <div class="carousel-item active">
+            <img src="assets/images/work-images/the-white-ribbon.jpg" alt="the white ribbon" class="art-image" loading="lazy" />
+          </div>
+        </div>
+        <p class="art-title">the white ribbon</p>
+      </div>
+
+      <!-- Additional art items follow the same pattern -->
     </div>
   </div>
 
+  <!-- Modal Structure for Image Enlargement -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <button class="close-button" onclick="closeModal()">&times;</button>
+      <img id="modal-image" src="" alt="">
+      <p id="modal-title"></p>
+      <p id="modal-material"></p>
+      <p id="modal-dimensions"></p>
+      <p id="modal-description"></p>
+      <button id="modal-prev" class="carousel-arrow prev" onclick="navigateModal(-1)">&#10094;</button>
+      <button id="modal-next" class="carousel-arrow next" onclick="navigateModal(1)">&#10095;</button>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen" style="display: none;">
+    <div>WORK PAGE LOADING...</div>
+    <div class="loading-bar" id="loading-bar"></div>
+  </div>
+
   <script>
+    // Carousel Functionality
+    function moveCarousel(button, direction) {
+      const carousel = button.parentElement;
+      const items = carousel.querySelectorAll('.carousel-item');
+      let activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+
+      items[activeIndex].classList.remove('active');
+
+      activeIndex += direction;
+
+      if (activeIndex >= items.length) {
+        activeIndex = 0;
+      } else if (activeIndex < 0) {
+        activeIndex = items.length - 1;
+      }
+
+      items[activeIndex].classList.add('active');
+    }
+
+    // Modal Functionality
+    let currentIndex = 0;
+    let currentItems = [];
+
     function openModal(imageFilename, title, material, dimensions, description) {
       const modal = document.getElementById('image-modal');
       const modalImage = document.getElementById('modal-image');
@@ -34,15 +135,35 @@
       const modalMaterial = document.getElementById('modal-material');
       const modalDimensions = document.getElementById('modal-dimensions');
       const modalDescription = document.getElementById('modal-description');
-      
-      let sanitizedFilename = imageFilename.trim().replace(/ /g, '%20');
-      modalImage.src = `assets/images/work-images/${sanitizedFilename}`;
+
+      currentItems = imageFilename.split(',');
+      currentIndex = 0;
+
+      modalImage.src = `assets/images/work-images/${currentItems[currentIndex].trim()}`;
       modalTitle.textContent = title;
       modalMaterial.textContent = `Material: ${material}`;
       modalDimensions.textContent = `Dimensions: ${dimensions}`;
       modalDescription.textContent = `Description: ${description}`;
-      
+
       modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+    }
+
+    function navigateModal(direction) {
+      currentIndex += direction;
+
+      if (currentIndex >= currentItems.length) {
+        currentIndex = 0;
+      } else if (currentIndex < 0) {
+        currentIndex = currentItems.length - 1;
+      }
+
+      const modalImage = document.getElementById('modal-image');
+      modalImage.src = `assets/images/work-images/${currentItems[currentIndex].trim()}`;
     }
   </script>
 </body>
