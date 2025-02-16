@@ -36,7 +36,7 @@
       const modalDescription = document.getElementById('modal-description');
       
       let sanitizedFilename = imageFilename.trim().replace(/ /g, '%20');
-      modalImage.src = `/assets/images/work-images/${sanitizedFilename}`;
+      modalImage.src = `./assets/images/work-images/${sanitizedFilename}`;
       modalTitle.textContent = title;
       modalMaterial.textContent = `Material: ${material}`;
       modalDimensions.textContent = `Dimensions: ${dimensions}`;
