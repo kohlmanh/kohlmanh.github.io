@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work</title>
-  <link rel="stylesheet" href="/assets/css/work.css">
+  <link rel="stylesheet" href="assets/css/work.css">
 </head>
 <body>
   <div class="header">WORK</div>
@@ -12,77 +12,38 @@
     <a href="/" class="home-button" onclick="returnToHome(); return false;">Back to Home</a>
     <div id="year-ticker" class="year-ticker"></div>
 
-    <!-- Page content will be injected here -->
-    
-<div class="art-grid" id="art-grid">
-    
+    <div class="art-grid" id="art-grid">
       
         <div class="art-item" data-year="2024" onclick="openModal('DSC0523.jpg', 'hold me tight and never let me go (stockholm syndrome),', 'Assorted used stuffed animals, thread, towel rack, hardware', '52” x 36”', 'art')">
           <div class="carousel">
-            
-            
-              <div class="carousel-item active">
-                <img src="assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
-              </div>
-            
-            
+            <div class="carousel-item active">
+              <img src="assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
+            </div>
           </div>
           <p class="art-title">hold me tight and never let me go (stockholm syndrome),</p>
         </div>
       
-        <div class="art-item" data-year="2024" onclick="openModal('DSC0530.jpg', 'it came from under the radiator', 'Stuffed animals, toy baby, care bear heart', '52” x 36”', 'art')">
-          <div class="carousel">
-            
-            
-              <div class="carousel-item active">
-                <img src="assets/images/work-images/DSC0530.jpg" alt="it came from under the radiator" class="art-image" loading="lazy" />
-              </div>
-            
-            
-          </div>
-          <p class="art-title">it came from under the radiator</p>
-        </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(imageFilename, title, material, dimensions, description) {
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalTitle = document.getElementById('modal-title');
+      const modalMaterial = document.getElementById('modal-material');
+      const modalDimensions = document.getElementById('modal-dimensions');
+      const modalDescription = document.getElementById('modal-description');
       
-        <div class="art-item" data-year="2024" onclick="openModal('DSC0531.jpg', 'cute kills', 'stuffed animals, nails', '52” x 36”', 'art')">
-          <div class="carousel">
-            
-            
-              <div class="carousel-item active">
-                <img src="assets/images/work-images/DSC0531.jpg" alt="cute kills" class="art-image" loading="lazy" />
-              </div>
-            
-            
-          </div>
-          <p class="art-title">cute kills</p>
-        </div>
+      let sanitizedFilename = imageFilename.trim().replace(/ /g, '%20');
+      modalImage.src = `assets/images/work-images/${sanitizedFilename}`;
+      modalTitle.textContent = title;
+      modalMaterial.textContent = `Material: ${material}`;
+      modalDimensions.textContent = `Dimensions: ${dimensions}`;
+      modalDescription.textContent = `Description: ${description}`;
       
-</div>
-
-<script>
-  function updateYearOnScroll() {
-    const items = document.querySelectorAll('.art-item');
-    let currentYear = '';
-    let scrollPosition = window.scrollY + window.innerHeight / 2;
-
-    items.forEach(item => {
-      const rect = item.getBoundingClientRect();
-      const itemTop = rect.top + window.scrollY;
-      const itemBottom = itemTop + rect.height;
-      if (scrollPosition >= itemTop && scrollPosition <= itemBottom) {
-        currentYear = item.getAttribute('data-year');
-      }
-    });
-
-    const ticker = document.getElementById('year-ticker');
-    if (ticker && currentYear) {
-      ticker.textContent = currentYear;
-      ticker.style.fontSize = '32px';
-      ticker.style.fontWeight = 'bold';
+      modal.style.display = 'flex';
     }
-  }
-
-  window.addEventListener('scroll', updateYearOnScroll);
-  document.addEventListener('DOMContentLoaded', updateYearOnScroll);
-</script>
+  </script>
 </body>
 </html>
