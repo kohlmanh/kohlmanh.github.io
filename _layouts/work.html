@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work</title>
-  
-    <!-- Load global styles first -->
-    <link rel="stylesheet" href="assets/css/style.css">
-  
-    <!-- Load work.css AFTER to ensure it applies correctly -->
-    <link rel="stylesheet" href="assets/css/work.css">
-  </head>  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/work.css' | relative_url }}">
+</head>
 <body>
   <div class="header">WORK</div>
   <div class="container">
-    <a href="/" class="home-button" onclick="returnToHome(); return false;">Back to Home</a>
+    <a href="/" class="home-button">Back to Home</a>
     <div id="year-ticker" class="year-ticker"></div>
 
-    <div class="art-grid" id="art-grid">
-      
-        <div class="art-item" data-year="2024" onclick="openModal('DSC0523.jpg', 'hold me tight and never let me go (stockholm syndrome),', 'Assorted used stuffed animals, thread, towel rack, hardware', '52” x 36”', 'art')">
-          <div class="carousel">
-            <div class="carousel-item active">
-              <img src="assets/images/work-images/DSC0523.jpg" alt="hold me tight and never let me go (stockholm syndrome)," class="art-image" loading="lazy" />
-            </div>
-          </div>
-          <p class="art-title">hold me tight and never let me go (stockholm syndrome),</p>
-        </div>
-      
+    <!-- Page content will be injected here -->
+    {{ content }}
+  </div>
+
+  <!-- Modal Structure for Image Enlargement -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <button class="close-button" onclick="closeModal()">&times;</button>
+      <img id="modal-image" src="" alt="">
+      <p id="modal-title"></p>
+      <p id="modal-material"></p>
+      <p id="modal-dimensions"></p>
+      <p id="modal-description"></p>
+      <button id="modal-prev" class="carousel-arrow prev" onclick="navigateModal(-1)">&#10094;</button>
+      <button id="modal-next" class="carousel-arrow next" onclick="navigateModal(1)">&#10095;</button>
     </div>
   </div>
 
+  <!-- Embedded JavaScript -->
   <script>
+    // Carousel Functionality
+    function moveCarousel(button, direction) {
+      const carousel = button.parentElement;
+      const items = carousel.querySelectorAll('.carousel-item');
+      let activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+
+      items[activeIndex].classList.remove('active');
+
+      activeIndex += direction;
+
+      if (activeIndex >= items.length) {
+        activeIndex = 0;
+      } else if (activeIndex < 0) {
+        activeIndex = items.length - 1;
+      }
+
+      items[activeIndex].classList.add('active');
+    }
+
+    // Year Ticker Functionality
+    function updateYearTicker() {
+      const yearTicker = document.getElementById('year-ticker');
+      const artItems = document.querySelectorAll('.art-item');
+      const years = Array.from(artItems).map(item => item.getAttribute('data-year'));
+      const uniqueYears = [...new Set(years)].sort((a, b) => b - a); // Sort years in descending order
+
+      if (yearTicker) {
+        yearTicker.textContent = uniqueYears.join(' / '); // Display years separated by slashes
+      }
+    }
+
+    // Modal Functionality
+    let currentIndex = 0;
+    let currentItems = [];
+
     function openModal(imageFilename, title, material, dimensions, description) {
       const modal = document.getElementById('image-modal');
       const modalImage = document.getElementById('modal-image');
@@ -39,16 +74,39 @@
       const modalMaterial = document.getElementById('modal-material');
       const modalDimensions = document.getElementById('modal-dimensions');
       const modalDescription = document.getElementById('modal-description');
-      
-      let sanitizedFilename = imageFilename.trim().replace(/ /g, '%20');
-      modalImage.src = `assets/images/work-images/${sanitizedFilename}`;
+
+      currentItems = imageFilename.split(',');
+      currentIndex = 0;
+
+      modalImage.src = `/assets/images/${currentItems[currentIndex].trim()}`;
       modalTitle.textContent = title;
       modalMaterial.textContent = `Material: ${material}`;
       modalDimensions.textContent = `Dimensions: ${dimensions}`;
       modalDescription.textContent = `Description: ${description}`;
-      
+
       modal.style.display = 'flex';
     }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+    }
+
+    function navigateModal(direction) {
+      currentIndex += direction;
+
+      if (currentIndex >= currentItems.length) {
+        currentIndex = 0;
+      } else if (currentIndex < 0) {
+        currentIndex = currentItems.length - 1;
+      }
+
+      const modalImage = document.getElementById('modal-image');
+      modalImage.src = `/assets/images/${currentItems[currentIndex].trim()}`;
+    }
+
+    // Initialize Year Ticker on Page Load
+    document.addEventListener('DOMContentLoaded', updateYearTicker);
   </script>
 </body>
 </html>

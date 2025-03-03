@@ -1,10 +1,9 @@
 ---
-layout: default
+layout: null
 title: "Home"
 permalink: /
 markdown: false
 ---
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -29,32 +28,35 @@ markdown: false
       position: absolute;
       width: 100%;
       height: 100%;
+      z-index: 5;
     }
-    /* Ducks */
+    /* Ducks - doubled from original 80px to 160px */
     .duck {
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 160px;
+      height: 160px;
       background-size: contain;
       background-repeat: no-repeat;
       cursor: url('{{ site.baseurl }}assets/images/crosshair.cur'), auto;
       z-index: 10;
     }
+    /* Increased font size for duck labels to match larger duck size */
     .duck span {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
-      font-size: 1em;
+      font-size: 1.5em;
       font-weight: bold;
+      text-shadow: 2px 2px 4px #000000;
       pointer-events: none;
     }
-    /* Explosion effect */
+    /* Explosion effect - also increased for better proportion with larger ducks */
     .explosion {
       position: absolute;
-      width: 100px;
-      height: 100px;
+      width: 180px;
+      height: 180px;
       background: url('{{ site.baseurl }}assets/images/explosion.png') no-repeat center center;
       background-size: contain;
       pointer-events: none;
@@ -80,9 +82,13 @@ markdown: false
 
     const gameContainer = document.getElementById('game-container');
 
+    // Track duck positions for shot detection
+    let duckPositions = [];
+
     function getRandomPosition() {
-      const duckWidth = 80;
-      const duckHeight = 80;
+      // Updated to account for doubled duck size
+      const duckWidth = 160;
+      const duckHeight = 160;
       return {
         x: Math.random() * (window.innerWidth - duckWidth),
         y: Math.random() * (window.innerHeight / 2 - duckHeight) // Keep ducks above the bottom half
@@ -112,8 +118,9 @@ markdown: false
     }
 
     function moveDuck(duckElement) {
-      let dx = 2 + Math.random() * 2; // Horizontal speed
-      let dy = 2 + Math.random() * 2; // Vertical speed
+      // Reduced speed for much larger ducks
+      let dx = 1.5 + Math.random() * 1.5; 
+      let dy = 1.5 + Math.random() * 1.5;
 
       function animate() {
         let x = parseFloat(duckElement.style.left);
@@ -122,6 +129,8 @@ markdown: false
         // Bounce off edges
         if (x + duckElement.offsetWidth > window.innerWidth || x < 0) {
           dx = -dx;
+          // Flip the duck image horizontally when changing direction
+          duckElement.style.transform = dx > 0 ? 'scaleX(1)' : 'scaleX(-1)';
         }
         if (y + duckElement.offsetHeight > window.innerHeight / 2 || y < 0) {
           dy = -dy;
@@ -131,34 +140,89 @@ markdown: false
         duckElement.style.left = `${x + dx}px`;
         duckElement.style.top = `${y + dy}px`;
 
+        // Update duck position in our tracking array
+        updateDuckPosition(duckElement);
+
         requestAnimationFrame(animate);
       }
 
       animate();
     }
 
+    function updateDuckPosition(duckElement) {
+      const rect = duckElement.getBoundingClientRect();
+      const duckInfo = {
+        id: duckElement.id,
+        element: duckElement,
+        url: duckElement.getAttribute('data-url'),
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom
+      };
+      
+      // Update or add this duck's position
+      const index = duckPositions.findIndex(duck => duck.id === duckElement.id);
+      if (index !== -1) {
+        duckPositions[index] = duckInfo;
+      } else {
+        duckPositions.push(duckInfo);
+      }
+    }
+
+    function isPointInDuck(x, y, duck) {
+      return x >= duck.left && x <= duck.right && y >= duck.top && y <= duck.bottom;
+    }
+
     function createExplosion(x, y) {
       const explosion = document.createElement('div');
       explosion.className = 'explosion';
-      explosion.style.left = `${x - 50}px`;
-      explosion.style.top = `${y - 50}px`;
+      explosion.style.left = `${x - 90}px`; // Adjusted for larger explosion
+      explosion.style.top = `${y - 90}px`; // Adjusted for larger explosion
       document.body.appendChild(explosion);
       explosion.addEventListener('animationend', () => explosion.remove());
     }
 
+    // Shoot anywhere on the screen
     document.body.addEventListener('click', (event) => {
-      if (event.target.classList.contains('duck')) {
-        const url = event.target.getAttribute('data-url');
-        const audio = new Audio('{{ site.baseurl }}assets/sounds/gunshot.mp3');
-        audio.play();
-        createExplosion(event.clientX, event.clientY);
-        setTimeout(() => {
-          window.location.href = url;
-        }, 600);
+      const audio = new Audio('{{ site.baseurl }}assets/sounds/gunshot.mp3');
+      audio.play();
+      createExplosion(event.clientX, event.clientY);
+      
+      // Check if we hit a duck
+      for (const duck of duckPositions) {
+        if (isPointInDuck(event.clientX, event.clientY, duck)) {
+          // Hit a duck! Navigate to its URL after a short delay
+          setTimeout(() => {
+            window.location.href = duck.url;
+          }, 600);
+          break;
+        }
       }
     });
 
-    window.onload = spawnDucks;
+    // Ensure ducks are properly positioned on window resize
+    window.addEventListener('resize', () => {
+      // Clear existing ducks
+      const existingDucks = document.querySelectorAll('.duck');
+      existingDucks.forEach(duck => duck.remove());
+      
+      // Reset duck positions tracking
+      duckPositions = [];
+      
+      // Respawn ducks in valid positions
+      spawnDucks();
+    });
+
+    // Initialize the game and start tracking duck positions
+    window.onload = function() {
+      spawnDucks();
+      
+      // Start position tracking for all ducks
+      setInterval(() => {
+        document.querySelectorAll('.duck').forEach(updateDuckPosition);
+      }, 100); // Update positions 10 times per second
+    };
   </script>
 </body>
 </html>
